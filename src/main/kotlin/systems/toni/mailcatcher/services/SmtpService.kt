@@ -1,13 +1,14 @@
 package systems.toni.mailcatcher.services
 
-import org.apache.commons.mail.util.MimeMessageParser
+import io.quarkus.logging.Log
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Inject
 import org.subethamail.smtp.helper.SimpleMessageListener
 import systems.toni.mailcatcher.domain.Mail
+import systems.toni.mailcatcher.util.MimeMessageParser
 import java.io.InputStream
+import java.time.Instant
 import javax.mail.internet.MimeMessage
-import jakarta.inject.Inject
-import jakarta.enterprise.context.ApplicationScoped
-import io.quarkus.logging.Log
 
 @ApplicationScoped
 class SmtpService : SimpleMessageListener {
@@ -33,11 +34,12 @@ class SmtpService : SimpleMessageListener {
     private fun parseMail(data: InputStream): Mail {
         val messageParser = MimeMessageParser(MimeMessage(null, data)).parse()
         return Mail(
-            from = messageParser.from,
+            from = messageParser.from ?: "",
             to = messageParser.to,
             subject = messageParser.subject,
             textBody = parseTextBody(messageParser),
             htmlBody = parseHtmlBody(messageParser),
+            receivedAt = Instant.now(),
         )
     }
 
