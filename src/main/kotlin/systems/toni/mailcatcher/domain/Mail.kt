@@ -1,0 +1,12 @@
+package systems.toni.mailcatcher.domain
+
+import javax.mail.Address
+
+data class Mail(
+		var id: Int = 0,
+		val from: String,
+		val to: List<Address>,
+		val subject: String,
+		val textBody: String,
+		val htmlBody: String
+)
