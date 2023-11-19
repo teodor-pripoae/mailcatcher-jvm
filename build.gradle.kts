@@ -17,6 +17,7 @@ val subethaSmtpVersion: String by project
 val apacheCommonsEmailVersion: String by project
 
 dependencies {
+    implementation("io.quarkus:quarkus-websockets")
     implementation(enforcedPlatform("$quarkusPlatformGroupId:$quarkusPlatformArtifactId:$quarkusPlatformVersion"))
     implementation("io.quarkus:quarkus-kubernetes")
     implementation("io.quarkus:quarkus-container-image-jib")

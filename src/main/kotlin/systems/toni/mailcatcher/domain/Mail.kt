@@ -10,5 +10,6 @@ data class Mail(
     val subject: String,
     val textBody: String,
     val htmlBody: String,
+    val sourceContent: String,
     val receivedAt: Instant
 )
