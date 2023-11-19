@@ -32,13 +32,18 @@ class SmtpService : SimpleMessageListener {
     }
 
     private fun parseMail(data: InputStream): Mail {
-        val messageParser = MimeMessageParser(MimeMessage(null, data)).parse()
+        val source = data.readAllBytes()
+        val stream = source.inputStream()
+        val sourceString = String(source, Charsets.UTF_8)
+
+        val messageParser = MimeMessageParser(MimeMessage(null, stream)).parse()
         return Mail(
             from = messageParser.from ?: "",
             to = messageParser.to,
             subject = messageParser.subject,
             textBody = parseTextBody(messageParser),
             htmlBody = parseHtmlBody(messageParser),
+            sourceContent = sourceString,
             receivedAt = Instant.now(),
         )
     }
