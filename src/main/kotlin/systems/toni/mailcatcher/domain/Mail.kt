@@ -1,7 +1,7 @@
 package systems.toni.mailcatcher.domain
 
 import java.time.Instant
-import javax.mail.Address
+import jakarta.mail.Address
 
 data class Mail(
     var id: Int = 0,

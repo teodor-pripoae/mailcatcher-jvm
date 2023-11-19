@@ -12,9 +12,7 @@ class ApplicationLifecycle {
     lateinit var mailServer: MailServer
 
     fun onStart(@Observes event: StartupEvent) {
-        Thread {
-            mailServer.start()
-        }.start()
+        mailServer.start()
     }
 
     fun onStop() {

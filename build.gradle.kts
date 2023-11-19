@@ -26,10 +26,15 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-resteasy-reactive")
-    implementation("org.subethamail:subethasmtp:$subethaSmtpVersion") // compile
-    // implementation("com.github.davidmoten:subethasmtp:$subethaSmtpVersion") // compile
+    implementation("com.github.davidmoten:subethasmtp:$subethaSmtpVersion")
+//    implementation("org.eclipse.angus:angus-mail:2.0.2")
+//    implementation("org.eclipse.angus:angus-activation:2.0.1")
+    implementation("com.sun.mail:jakarta.mail:2.0.1")
+    implementation("com.sun.activation:jakarta.activation:2.0.1")
 
-    implementation("org.apache.commons:commons-email:$apacheCommonsEmailVersion") // compile
+//    implementation("jakarta.activation:jakarta.activation-api:2.1.2")
+
+
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
 }

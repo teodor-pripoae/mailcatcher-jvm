@@ -8,7 +8,10 @@ import systems.toni.mailcatcher.domain.Mail
 import systems.toni.mailcatcher.util.MimeMessageParser
 import java.io.InputStream
 import java.time.Instant
-import javax.mail.internet.MimeMessage
+import jakarta.mail.internet.MimeMessage
+import jakarta.inject.Inject
+import jakarta.enterprise.context.ApplicationScoped
+import io.quarkus.logging.Log
 
 @ApplicationScoped
 class SmtpService : SimpleMessageListener {
