@@ -1,9 +1,9 @@
 package systems.toni.mailcatcher.util
 
+import io.quarkus.runtime.StartupEvent
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.enterprise.event.Observes
 import jakarta.inject.Inject
-import io.quarkus.runtime.StartupEvent
 import systems.toni.mailcatcher.servers.MailServer
 
 @ApplicationScoped

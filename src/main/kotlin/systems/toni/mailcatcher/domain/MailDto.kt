@@ -31,7 +31,7 @@ object MailDtoMapper {
         return MailDto(
             id = mail.id,
             sender = mail.from,
-            recipients = mail.to.map { it.toString() },
+            recipients = mail.to,
             subject = mail.subject,
             createdAt = mail.receivedAt.toString(),
             formats = formats,

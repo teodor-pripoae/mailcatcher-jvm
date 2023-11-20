@@ -1,8 +1,8 @@
 package systems.toni.mailcatcher.api
 
-import jakarta.ws.rs.core.MediaType
 import jakarta.inject.Inject
 import jakarta.ws.rs.*
+import jakarta.ws.rs.core.MediaType
 import org.jboss.resteasy.reactive.ResponseStatus
 import systems.toni.mailcatcher.domain.MailDto
 import systems.toni.mailcatcher.domain.MailDtoMapper

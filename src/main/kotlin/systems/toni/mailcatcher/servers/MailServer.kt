@@ -1,12 +1,12 @@
 package systems.toni.mailcatcher.servers
 
+import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.subethamail.smtp.helper.SimpleMessageListenerAdapter
 import org.subethamail.smtp.server.SMTPServer
 import systems.toni.mailcatcher.services.SmtpService
-import io.quarkus.logging.Log
 
 @ApplicationScoped
 class MailServer {
