@@ -1,12 +1,11 @@
 package systems.toni.mailcatcher.domain
 
 import java.time.Instant
-import javax.mail.Address
 
 data class Mail(
     var id: Int = 0,
     val from: String,
-    val to: List<Address>,
+    val to: List<String>,
     val subject: String,
     val textBody: String,
     val htmlBody: String,

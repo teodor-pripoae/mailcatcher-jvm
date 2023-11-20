@@ -1,6 +1,6 @@
 package systems.toni.mailcatcher.domain
 
-data class WebsocketMessage (
+data class WebsocketMessage(
     val type: String,
     val message: MailDto
 )

@@ -1,9 +1,8 @@
 package systems.toni.mailcatcher.services
 
-import systems.toni.mailcatcher.domain.Mail
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
-import systems.toni.mailcatcher.domain.MailDtoMapper
+import systems.toni.mailcatcher.domain.Mail
 import java.util.concurrent.atomic.AtomicInteger
 
 @ApplicationScoped

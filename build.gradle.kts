@@ -15,6 +15,8 @@ val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
 val subethaSmtpVersion: String by project
 val apacheCommonsEmailVersion: String by project
+val angusVersion: String by project
+val simpleJavaMailVersion: String by project
 
 dependencies {
     implementation("io.quarkus:quarkus-websockets")
@@ -26,10 +28,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-resteasy-reactive")
-    implementation("org.subethamail:subethasmtp:$subethaSmtpVersion") // compile
-    // implementation("com.github.davidmoten:subethasmtp:$subethaSmtpVersion") // compile
+    implementation("com.github.davidmoten:subethasmtp:$subethaSmtpVersion")
+    implementation("org.eclipse.angus:angus-mail:$angusVersion")
+    implementation("org.eclipse.angus:angus-activation:$angusVersion")
+    implementation("org.simplejavamail:simple-java-mail:$simpleJavaMailVersion")
 
-    implementation("org.apache.commons:commons-email:$apacheCommonsEmailVersion") // compile
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
 }
