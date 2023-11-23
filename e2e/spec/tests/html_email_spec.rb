@@ -22,8 +22,8 @@ describe "HTML Email" do
         sender: @sender,
         recipient: @recipient,
         subject: @subject,
-        bodyPlain: "",
-        bodyHtml: "<html>\n<body>\n  <h1>This is HTML</h1>\n</body>\n</html>\n"
+        body_plain: "",
+        body_html: "<html>\n<body>\n  <h1>This is HTML</h1>\n</body>\n</html>\n"
       )
     end
 
@@ -123,8 +123,8 @@ describe "HTML Email" do
         sender: @sender,
         recipient: @recipient,
         subject: @subject,
-        bodyPlain: "",
-        bodyHtml: "<html>\n<body>\n  <h1>This is HTML</h1>\n</body>\n</html>\n",
+        body_plain: "",
+        body_html: "<html>\n<body>\n  <h1>This is HTML</h1>\n</body>\n</html>\n",
         attachments: [
           File.join(File.dirname(__FILE__), "..", "fixtures", "attachment.txt"),
           File.join(File.dirname(__FILE__), "..", "fixtures", "image1.jpg")
@@ -182,7 +182,7 @@ describe "HTML Email" do
           "created_at" => data["created_at"],
           "formats" => ["source", "html"],
           "type" => "multipart/mixed",
-          "attachments" => data["attachments"],
+          "attachments" => data["attachments"]
         }
       )
 

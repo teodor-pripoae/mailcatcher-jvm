@@ -1,0 +1,113 @@
+name: pull requests
+
+on:
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java_version: [11, 17, 21]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java_version }}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Build JVM Docker image
+        env:
+          QUARKUS_PACKAGE_TYPE: jar
+        run: |
+          ./gradlew build -x test
+          docker build -f src/main/docker/Dockerfile.jvm -t ghcr.io/teodor-pripoae/mailcatcher-jvm:jvm .
+
+      - name: Build JVM Docker image (legacy jar)
+        env:
+          QUARKUS_PACKAGE_TYPE: jar
+        run: |
+          ./gradlew build -Dquarkus.package.type=legacy-jar -x test
+          docker build -f src/main/docker/Dockerfile.legacy-jar -t ghcr.io/teodor-pripoae/mailcatcher-jvm:jvm-legacy .
+
+      - name: Build Amazon-Correto Slim image (Fat Jar)
+        env:
+          QUARKUS_PACKAGE_TYPE: uber-jar
+        run: |
+          ./gradlew quarkusBuild -x test
+          docker build -f src/main/docker/Dockerfile.fatjar -t ghcr.io/teodor-pripoae/mailcatcher-jvm:jvm-slim .
+
+      - name: Build Quarkus Native image
+        run: |
+          ./gradlew build -Dquarkus.native.container-build=true -Dquarkus.package.type=native -x test
+          docker build -f src/main/docker/Dockerfile.native -t ghcr.io/teodor-pripoae/mailcatcher-jvm:native-ubi .
+          docker build -f src/main/docker/Dockerfile.native-micro -t ghcr.io/teodor-pripoae/mailcatcher-jvm:native .
+
+      - name: Start docker compose
+        run: |
+          docker-compose up -d
+          sleep 10
+
+      - name: Install ruby dependencies for Integration tests
+        run: |
+          cd e2e
+          gem install bundler
+          bundle config set --local path third_party/bundle
+          bundle install
+
+      - name: Run integration tests for Mailcatcher Ruby
+        env:
+          MAILCATCHER_SMTP_URL: localhost:1025
+          MAILCATCHER_HTTP_URL: localhost:1080
+        run: |
+          cd e2e
+          bundle exec rake e2e
+
+      - name: Run integration tests for Mailcatcher JVM
+        env:
+          MAILCATCHER_SMTP_URL: localhost:2025
+          MAILCATCHER_HTTP_URL: localhost:2080
+        run: |
+          cd e2e
+          bundle exec rake e2e
+
+      - name: Run integration tests for Mailcatcher JVM (legacy jar)
+        env:
+          MAILCATCHER_SMTP_URL: localhost:3025
+          MAILCATCHER_HTTP_URL: localhost:3080
+        run: |
+          cd e2e
+          bundle exec rake e2e
+
+      - name: Run integration tests for Mailcatcher JVM (fat jar)
+        env:
+          MAILCATCHER_SMTP_URL: localhost:4025
+          MAILCATCHER_HTTP_URL: localhost:4080
+        run: |
+          cd e2e
+          bundle exec rake e2e
+
+      - name: Run integration tests for Mailcatcher Native
+        env:
+          MAILCATCHER_SMTP_URL: localhost:5025
+          MAILCATCHER_HTTP_URL: localhost:5080
+        run: |
+          cd e2e
+          bundle exec rake e2e
+
+      - name: Run integration tests for Mailcatcher Native (ubi)
+        env:
+          MAILCATCHER_SMTP_URL: localhost:6025
+          MAILCATCHER_HTTP_URL: localhost:6080
+        run: |
+          cd e2e
+          bundle exec rake e2e
+
+      - name: Cleanup
+        if: always()
+        run: |
+          docker-compose down

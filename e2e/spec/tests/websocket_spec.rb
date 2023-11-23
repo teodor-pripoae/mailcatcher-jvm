@@ -109,7 +109,7 @@ describe "Websocket" do
         sender: @sender,
         recipient: @recipient,
         subject: @subject,
-        bodyPlain: @body
+        body_plain: @body
       )
     end
 
@@ -180,8 +180,8 @@ describe "Websocket" do
         sender: @sender,
         recipient: @recipient,
         subject: @subject,
-        bodyPlain: nil,
-        bodyHtml: "<h1>This is HTML</h1>"
+        body_plain: nil,
+        body_html: "<h1>This is HTML</h1>"
       )
     end
 
@@ -252,8 +252,8 @@ describe "Websocket" do
         sender: @sender,
         recipient: @recipient,
         subject: @subject,
-        bodyPlain: "This is plain text",
-        bodyHtml: "<h1>This is HTML</h1>"
+        body_plain: "This is plain text",
+        body_html: "<h1>This is HTML</h1>"
       )
     end
 
@@ -324,8 +324,8 @@ describe "Websocket" do
         sender: @sender,
         recipient: @recipient,
         subject: @subject,
-        bodyPlain: "This is plain text",
-        bodyHtml: "<h1>This is HTML</h1>",
+        body_plain: "This is plain text",
+        body_html: "<h1>This is HTML</h1>",
         attachments: [
           File.join(File.dirname(__FILE__), "..", "fixtures", "attachment.txt"),
           File.join(File.dirname(__FILE__), "..", "fixtures", "image1.jpg"),

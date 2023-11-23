@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  mailcatcher:
+    image: dockage/mailcatcher:0.8.2
+    ports:
+    - "1080:1080"
+    - "1025:1025"
+  jvm:
+    image: ghcr.io/teodor-pripoae/mailcatcher-jvm:jvm
+    ports:
+    - "2080:8080"
+    - "2025:3025"
+  jvm-legacy:
+    image: ghcr.io/teodor-pripoae/mailcatcher-jvm:jvm-legacy
+    ports:
+    - "3080:8080"
+    - "3025:3025"
+  jvm-slim:
+    image: ghcr.io/teodor-pripoae/mailcatcher-jvm:jvm-slim
+    ports:
+    - "4080:8080"
+    - "4025:3025"
+  native:
+    image: ghcr.io/teodor-pripoae/mailcatcher-jvm:native
+    ports:
+    - "5080:8080"
+    - "5025:3025"
+  native-ubi:
+    image: ghcr.io/teodor-pripoae/mailcatcher-jvm:native-ubi
+    ports:
+    - "6080:8080"
+    - "6025:3025"
