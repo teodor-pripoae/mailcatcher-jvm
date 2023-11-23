@@ -20,10 +20,10 @@ data class NewMessage(
             return NewMessage(
                 id = mail.id,
                 sender = "<${mail.from}>",
-                recipients = mail.to.map{ "<$it>" },
+                recipients = mail.to.map{ it.toString() },
                 size = mail.size().toString(),
                 subject = mail.subject,
-                type = mail.contentType(),
+                type = mail.contentType,
                 createdAt = mail.createdAt()
             )
         }
