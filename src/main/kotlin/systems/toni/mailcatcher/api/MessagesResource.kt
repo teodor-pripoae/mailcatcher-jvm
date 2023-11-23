@@ -38,7 +38,7 @@ class MessagesResource {
     @Path("/{id}.plain")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    fun plain(id: String): String {
+    fun plain(@PathParam("id") id: String): String {
         val mail = storageService.getMailById(id) ?: throw NotFoundException("Mail with id $id not found")
         return mail.textBody
     }
@@ -46,7 +46,7 @@ class MessagesResource {
     @Path("/{id}.source")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    fun source(id: String): String {
+    fun source(@PathParam("id") id: String): String {
         val mail = storageService.getMailById(id) ?: throw NotFoundException("Mail with id $id not found")
         return mail.sourceContent
     }
@@ -54,7 +54,7 @@ class MessagesResource {
     @Path("/{id}.html")
     @GET
     @Produces(MediaType.TEXT_HTML)
-    fun html(id: String): String {
+    fun html(@PathParam("id") id: String): String {
         val mail = storageService.getMailById(id) ?: throw NotFoundException("Mail with id $id not found")
         return mail.htmlBody
     }
@@ -62,7 +62,7 @@ class MessagesResource {
     @Path("/{id}.eml")
     @GET
     @Produces(MESSAGE_RFC822)
-    fun eml(id: String): String {
+    fun eml(@PathParam("id") id: String): String {
         val mail = storageService.getMailById(id) ?: throw NotFoundException("Mail with id $id not found")
         return mail.sourceContent
     }
