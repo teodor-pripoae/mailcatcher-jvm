@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger
 class StorageService {
     private val mails = mutableListOf<Mail>()
     private val mailsById = mutableMapOf<String, Mail>()
+    private val mailsByMessageid = mutableMapOf<String, Mail>()
     private var lastId: AtomicInteger = AtomicInteger(0)
 
     @Inject
@@ -16,10 +17,17 @@ class StorageService {
 
     fun add(mail: Mail) {
         synchronized(this) {
+            // if there is a mail sent to multiple recipients
+            // we will receive it multiple times from subethasmtp
+            if (mailsByMessageid.containsKey(mail.messageId)) {
+                return
+            }
+
             if (mail.id == 0) {
                 mail.id = lastId.incrementAndGet()
             }
             mailsById[mail.id.toString()] = mail
+            mailsByMessageid[mail.messageId] = mail
             mails.add(mail)
             sessionsService.newMail(mail)
         }
@@ -33,6 +41,7 @@ class StorageService {
         synchronized(this) {
             mails.clear()
             mailsById.clear()
+            mailsByMessageid.clear()
             sessionsService.clear()
             lastId.set(0)
         }
@@ -44,6 +53,7 @@ class StorageService {
             if (mail != null) {
                 mails.remove(mail)
                 mailsById.remove(id)
+                mailsByMessageid.remove(mail.messageId)
                 return mail
             }
             return null

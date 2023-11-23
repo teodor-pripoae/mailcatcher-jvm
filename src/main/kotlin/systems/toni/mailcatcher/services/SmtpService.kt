@@ -6,9 +6,12 @@ import jakarta.inject.Inject
 import jakarta.mail.internet.MimeMessage
 import org.simplejavamail.converter.internal.mimemessage.MimeMessageParser
 import org.subethamail.smtp.helper.SimpleMessageListener
+import systems.toni.mailcatcher.domain.Address
+import systems.toni.mailcatcher.domain.Attachment
 import systems.toni.mailcatcher.domain.Mail
 import java.io.InputStream
 import java.time.Instant
+import java.util.UUID
 
 @ApplicationScoped
 class SmtpService : SimpleMessageListener {
@@ -38,15 +41,24 @@ class SmtpService : SimpleMessageListener {
 
         val mimeMessage = MimeMessage(null, stream)
         val messageParser = MimeMessageParser.parseMimeMessage(mimeMessage)
-        return Mail(
+
+        val contentType = mimeMessage.contentType ?: "text/plain"
+
+        val mail = Mail(
             from = messageParser.fromAddress?.address ?: "",
-            to = messageParser.toAddresses.map { it.address },
+            to = messageParser.toAddresses.map { Address(it) },
             subject = messageParser.subject ?: throw Exception("No subject"),
             textBody = messageParser.plainContent ?: "",
             htmlBody = messageParser.htmlContent ?: "",
-            sourceContent = transformSourceContent(sourceString),
             receivedAt = Instant.now(),
+            attachments = messageParser.attachmentList.map {
+                Attachment.fromMimeDataSource(it)
+            },
+            messageId = messageParser.messageId ?: UUID.randomUUID().toString(),
+            contentType = contentType.split(";")[0],
         )
+        mail.sourceContent = transformSourceContent(sourceString)
+        return mail
     }
 
     private fun transformSourceContent(sourceContent: String): String {
