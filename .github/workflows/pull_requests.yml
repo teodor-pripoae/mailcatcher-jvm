@@ -18,16 +18,22 @@ jobs:
           java-version: ${{ matrix.java_version }}
 
       - name: Build JVM Docker image
+        env:
+          QUARKUS_PACKAGE_TYPE: jar
         run: |
           ./gradlew build -x test
           docker build -f src/main/docker/Dockerfile.jvm -t ghcr.io/teodor-pripoae/mailcatcher-jvm:jvm .
 
       - name: Build JVM Docker image (legacy jar)
+        env:
+          QUARKUS_PACKAGE_TYPE: jar
         run: |
           ./gradlew build -Dquarkus.package.type=legacy-jar -x test
           docker build -f src/main/docker/Dockerfile.legacy-jar -t ghcr.io/teodor-pripoae/mailcatcher-jvm:jvm-legacy .
 
       - name: Build Amazon-Correto Slim image (Fat Jar)
+        env:
+          QUARKUS_PACKAGE_TYPE: uber-jar
         run: |
           ./gradlew quarkusBuild -x test
           docker build -f src/main/docker/Dockerfile.fatjar -t ghcr.io/teodor-pripoae/mailcatcher-jvm:jvm-slim .
