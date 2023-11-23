@@ -1,12 +1,12 @@
 require "celluloid/websocket/client"
 
 class WebsocketClient
-	include Celluloid
+  include Celluloid
 
   def initialize(url)
     @client = Celluloid::WebSocket::Client.new(url, current_actor)
     @counter = 0
-		@messages = []
+    @messages = []
   end
 
   def on_open
@@ -15,20 +15,18 @@ class WebsocketClient
 
   def on_message(data)
     @counter += 1
-		message = JSON.parse(data)
-		# puts("websocket message received: #{message.inspect}")
-		messages << message
+    message = JSON.parse(data)
+    # puts("websocket message received: #{message.inspect}")
+    messages << message
   end
 
   def on_close(code, reason)
     # puts("websocket connection closed: #{code.inspect}, #{reason.inspect}")
   end
 
-	def close
-		@client.close
-	end
+  def close
+    @client.close
+  end
 
-	def messages
-		@messages
-	end
+  attr_reader :messages
 end
