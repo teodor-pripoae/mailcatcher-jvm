@@ -15,30 +15,38 @@ class StorageService {
     private lateinit var sessionsService: WebsocketSessionService
 
     fun add(mail: Mail) {
-        if (mail.id == 0) {
-            mail.id = lastId.incrementAndGet()
+        synchronized(this) {
+            if (mail.id == 0) {
+                mail.id = lastId.incrementAndGet()
+            }
+            mailsById[mail.id.toString()] = mail
+            mails.add(mail)
+            sessionsService.newMail(mail)
         }
-        mailsById[mail.id.toString()] = mail
-        mails.add(mail)
-        sessionsService.newMail(mail)
     }
 
-    fun getMails() = mails.toList()
+    fun getMails() = synchronized(this) { mails.toList() }
 
-    fun getMailById(id: String) = mailsById[id]
+    fun getMailById(id: String) = synchronized(this) { mailsById[id] }
 
     fun deleteAll() {
-        mails.clear()
-        mailsById.clear()
+        synchronized(this) {
+            mails.clear()
+            mailsById.clear()
+            sessionsService.clear()
+            lastId.set(0)
+        }
     }
 
     fun deleteById(id: String): Mail? {
-        val mail = mailsById[id]
-        if (mail != null) {
-            mails.remove(mail)
-            mailsById.remove(id)
-            return mail
+        synchronized(this) {
+            val mail = mailsById[id]
+            if (mail != null) {
+                mails.remove(mail)
+                mailsById.remove(id)
+                return mail
+            }
+            return null
         }
-        return null
     }
 }

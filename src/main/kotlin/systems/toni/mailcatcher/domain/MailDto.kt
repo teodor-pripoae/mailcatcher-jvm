@@ -11,31 +11,44 @@ data class MailDto(
     @JsonProperty("created_at")
     val createdAt: String,
     val formats: List<String>,
-    val type: String
-)
-
-object MailDtoMapper {
-    fun map(mail: Mail): MailDto {
-        var formats: List<String> = listOf()
-        if (!mail.sourceContent.equals("")) {
-            formats = formats.plus("source")
+    val type: String,
+    val size: String,
+) {
+    companion object {
+        fun fromMail(mail: Mail): MailDto {
+            return MailDto(
+                id = mail.id,
+                sender = "<${mail.from}>",
+                recipients = mail.to.map { "<$it>" },
+                subject = mail.subject,
+                createdAt = mail.receivedAt.toString(),
+                size = mail.size().toString(),
+                formats = mail.formats(),
+                type = mail.contentType()
+            )
         }
+    }
+}
 
-        if (!mail.htmlBody.equals("")) {
-            formats = formats.plus("html")
+data class MailSimpleDto(
+    val id: Int,
+    val sender: String,
+    val recipients: List<String>,
+    val subject: String,
+    val size: String,
+    @JsonProperty("created_at")
+    val createdAt: String,
+) {
+    companion object {
+        fun fromMail(mail: Mail): MailSimpleDto {
+            return MailSimpleDto(
+                id = mail.id,
+                sender = "<${mail.from}>",
+                recipients = mail.to.map { "<$it>" },
+                subject = mail.subject,
+                size = mail.size().toString(),
+                createdAt = mail.createdAt()
+            )
         }
-        if (!mail.textBody.equals("")) {
-            formats = formats.plus("plain")
-        }
-
-        return MailDto(
-            id = mail.id,
-            sender = mail.from,
-            recipients = mail.to,
-            subject = mail.subject,
-            createdAt = mail.receivedAt.toString(),
-            formats = formats,
-            type = "text/alternative"
-        )
     }
 }

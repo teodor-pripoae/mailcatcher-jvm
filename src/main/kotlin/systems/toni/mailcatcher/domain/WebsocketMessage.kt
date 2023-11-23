@@ -1,6 +1,48 @@
 package systems.toni.mailcatcher.domain
 
-data class WebsocketMessage(
+import com.fasterxml.jackson.annotation.JsonProperty
+
+data class NewMessage(
+    val id : Int,
+    val sender: String,
+    val recipients: List<String>,
+    val size: String,
+    val subject: String,
     val type: String,
-    val message: MailDto
+    @get:JsonProperty("created_at")
+    val createdAt: String,
+) {
+
+    companion object {
+        fun fromMail(mail: Mail): NewMessage {
+            return NewMessage(
+                id = mail.id,
+                sender = "<${mail.from}>",
+                recipients = mail.to.map{ "<$it>" },
+                size = mail.size().toString(),
+                subject = mail.subject,
+                type = mail.contentType(),
+                createdAt = mail.createdAt()
+            )
+        }
+    }
+}
+
+data class WebsocketNewMessage(
+    @JsonProperty("type")
+    val type: String = "add",
+    @JsonProperty("message")
+    var message: NewMessage
+) {
+    companion object {
+        fun fromMail(mail: Mail): WebsocketNewMessage {
+            return WebsocketNewMessage(
+                message = NewMessage.fromMail(mail)
+            )
+        }
+    }
+}
+
+data class WebsocketClearMessage(
+    val type: String = "clear"
 )

@@ -1,11 +1,13 @@
 package systems.toni.mailcatcher.api
 
+import io.smallrye.mutiny.Uni
 import jakarta.inject.Inject
 import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.Response
 import org.jboss.resteasy.reactive.ResponseStatus
 import systems.toni.mailcatcher.domain.MailDto
-import systems.toni.mailcatcher.domain.MailDtoMapper
+import systems.toni.mailcatcher.domain.MailSimpleDto
 import systems.toni.mailcatcher.services.StorageService
 
 @Path("/messages")
@@ -15,16 +17,23 @@ class MessagesResource {
 
     companion object {
         const val MESSAGE_RFC822 = "message/rfc822"
+
+        val mailHtmlNotFound = """
+            |<html>
+            |<body>
+            |  <h1>No Dice</h1>
+            |  <p>The message you were looking for does not exist, or doesn't have content of this type.</p>
+            |</body>
+            |</html>
+            |
+        """.trimMargin()
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun messages(): List<MailDto> {
+    fun messages(): List<MailSimpleDto> {
         val mails = storageService.getMails()
-        val mailDtos = mails.map {
-            MailDtoMapper.map(it)
-        }
-        return mailDtos
+        return mails.map { MailSimpleDto.fromMail(it) }
     }
 
     @Path("/{id}.json")
@@ -32,15 +41,41 @@ class MessagesResource {
     @Produces(MediaType.APPLICATION_JSON)
     fun json(@PathParam("id") id: String): MailDto {
         val mail = storageService.getMailById(id) ?: throw NotFoundException("Mail with id $id not found")
-        return MailDtoMapper.map(mail)
+        return MailDto.fromMail(mail)
     }
 
     @Path("/{id}.plain")
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    fun plain(@PathParam("id") id: String): String {
+    fun plain(@PathParam("id") id: String): Uni<Response> {
         val mail = storageService.getMailById(id) ?: throw NotFoundException("Mail with id $id not found")
-        return mail.textBody
+        if (mail.textBody.equals("")) {
+            val response = Response
+                .status(404)
+                .entity(mailHtmlNotFound)
+                .type(MediaType.TEXT_HTML)
+                .build()
+            return Uni.createFrom().item(response)
+        }
+
+        val text = mail.textBody.replace("\r\n", "\n")
+        val response = Response
+            .status(200)
+            .entity(text)
+            .type(MediaType.TEXT_PLAIN)
+            .build()
+        return Uni.createFrom().item(response)
+    }
+
+    @Path("/{id}.html")
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    fun html(@PathParam("id") id: String): Uni<Response> {
+        val mail = storageService.getMailById(id) ?: throw NotFoundException("Mail with id $id not found")
+        if (mail.htmlBody.equals("")) {
+            return Uni.createFrom().item(Response.status(404).entity(mailHtmlNotFound).build())
+        }
+        val html = mail.htmlBody.replace("\r\n", "\n")
+        return Uni.createFrom().item(Response.status(200).entity(html).build())
     }
 
     @Path("/{id}.source")
@@ -49,14 +84,6 @@ class MessagesResource {
     fun source(@PathParam("id") id: String): String {
         val mail = storageService.getMailById(id) ?: throw NotFoundException("Mail with id $id not found")
         return mail.sourceContent
-    }
-
-    @Path("/{id}.html")
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    fun html(@PathParam("id") id: String): String {
-        val mail = storageService.getMailById(id) ?: throw NotFoundException("Mail with id $id not found")
-        return mail.htmlBody
     }
 
     @Path("/{id}.eml")
