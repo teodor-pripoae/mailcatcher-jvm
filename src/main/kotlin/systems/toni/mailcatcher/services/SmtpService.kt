@@ -27,7 +27,7 @@ class SmtpService : SimpleMessageListener {
     ) {
         Log.info("Received mail from $from to $recipient")
         val mail = parseMail(data)
-        Log.error("Parsed mail: $mail")
+        Log.info("Parsed mail:\n$mail")
         storageService.add(mail)
     }
 
@@ -44,8 +44,26 @@ class SmtpService : SimpleMessageListener {
             subject = messageParser.subject ?: throw Exception("No subject"),
             textBody = messageParser.plainContent ?: "",
             htmlBody = messageParser.htmlContent ?: "",
-            sourceContent = sourceString,
+            sourceContent = transformSourceContent(sourceString),
             receivedAt = Instant.now(),
         )
+    }
+
+    private fun transformSourceContent(sourceContent: String): String {
+        // hack, it seems subetha smtp adds a line "Received: from ..." to the beginning of the message
+        // and then some lines starting with spaces
+        // so we just remove that lines
+        val lines = sourceContent.lines()
+        if (!lines.first().startsWith("Received: from")) {
+            return sourceContent
+        }
+        var i = 1
+        while (i < lines.size && lines[i].startsWith(" ")) {
+            i++
+        }
+
+        val goodLines = lines.subList(i, lines.size)
+        val text = goodLines.joinToString("\r\n")
+        return text
     }
 }

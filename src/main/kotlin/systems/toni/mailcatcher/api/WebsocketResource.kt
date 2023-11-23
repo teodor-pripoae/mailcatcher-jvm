@@ -9,7 +9,7 @@ import systems.toni.mailcatcher.services.WebsocketSessionService
 
 @ServerEndpoint("/messages")
 @ApplicationScoped
-class ChatSocket {
+class WebsocketResource {
     @Inject
     private lateinit var sessionsService: WebsocketSessionService
 

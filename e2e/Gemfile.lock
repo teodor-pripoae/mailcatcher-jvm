@@ -1,0 +1,106 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ansi (1.5.0)
+    ast (2.4.2)
+    celluloid (0.18.0)
+      timers (~> 4)
+    celluloid-io (0.17.3)
+      celluloid (>= 0.17.2)
+      nio4r (>= 1.1)
+      timers (>= 4.1.1)
+    celluloid-websocket-client (0.0.2)
+      celluloid-io
+      websocket-driver
+    coderay (1.1.3)
+    concurrent-ruby (1.2.2)
+    date (3.3.4)
+    date (3.3.4-java)
+    diff-lcs (1.5.0)
+    dotenv (2.8.1)
+    faker (3.2.2)
+      i18n (>= 1.8.11, < 2)
+    ffi (1.16.3-java)
+    i18n (1.14.1)
+      concurrent-ruby (~> 1.0)
+    json (2.6.3)
+    json (2.6.3-java)
+    mail (2.8.1)
+      mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
+    method_source (1.0.0)
+    mini_mime (1.1.5)
+    net-imap (0.4.6)
+      date
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.2.2)
+      timeout
+    net-smtp (0.4.0)
+      net-protocol
+    nio4r (2.6.1)
+    nio4r (2.6.1-java)
+    oga (3.4)
+      ast
+      ruby-ll (~> 2.1)
+    oga (3.4-java)
+      ast
+      ruby-ll (~> 2.1)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    pry (0.14.2-java)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+      spoon (~> 0.0)
+    rake (13.1.0)
+    rspec (3.12.0)
+      rspec-core (~> 3.12.0)
+      rspec-expectations (~> 3.12.0)
+      rspec-mocks (~> 3.12.0)
+    rspec-core (3.12.2)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.6)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-support (3.12.1)
+    ruby-ll (2.1.3)
+      ansi
+      ast
+    ruby-ll (2.1.3-java)
+      ansi
+      ast
+    spoon (0.0.6)
+      ffi
+    timeout (0.4.1)
+    timers (4.3.5)
+    websocket-driver (0.7.6)
+      websocket-extensions (>= 0.1.0)
+    websocket-driver (0.7.6-java)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.5)
+
+PLATFORMS
+  universal-java-17
+  x86_64-linux
+
+DEPENDENCIES
+  celluloid-websocket-client (~> 0.0.2)
+  dotenv (~> 2.8)
+  faker (~> 3.2.1)
+  json (~> 2.5)
+  mail (~> 2.8)
+  net-smtp (~> 0.4.0)
+  oga (~> 3.4)
+  pry (~> 0.14)
+  rake (~> 13.0)
+  rspec (~> 3.12)
+
+BUNDLED WITH
+   2.3.26

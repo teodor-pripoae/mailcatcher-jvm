@@ -1,11 +1,12 @@
 package systems.toni.mailcatcher.services
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.quarkus.logging.Log
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.websocket.Session
 import systems.toni.mailcatcher.domain.Mail
-import systems.toni.mailcatcher.domain.MailDtoMapper
-import systems.toni.mailcatcher.domain.WebsocketMessage
+import systems.toni.mailcatcher.domain.WebsocketClearMessage
+import systems.toni.mailcatcher.domain.WebsocketNewMessage
 import java.util.concurrent.ConcurrentHashMap
 
 @ApplicationScoped
@@ -30,13 +31,19 @@ class WebsocketSessionService {
     }
 
     fun newMail(mail: Mail) {
-        val message = MailDtoMapper.map(mail)
-        val response = WebsocketMessage("add", message)
+        val response = WebsocketNewMessage.fromMail(mail)
         val json = objectMapper.writeValueAsString(response)
         broadcast(json)
     }
 
+    fun clear() {
+        val message = WebsocketClearMessage()
+        val json = objectMapper.writeValueAsString(message)
+        broadcast(json)
+    }
+
     fun broadcast(message: String) {
+        Log.info("Broadcasting message: $message")
         sessions.values.forEach { session ->
             session.asyncRemote.sendObject(message) { result ->
                 if (result.exception != null) {
