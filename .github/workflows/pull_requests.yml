@@ -16,6 +16,9 @@ jobs:
         with:
           distribution: temurin
           java-version: ${{ matrix.java_version }}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
 
       - name: Build JVM Docker image
         env:
@@ -52,6 +55,7 @@ jobs:
       - name: Install ruby dependencies for Integration tests
         run: |
           cd e2e
+          gem install bundler
           bundle config set --local path third_party/bundle
           bundle install
 
