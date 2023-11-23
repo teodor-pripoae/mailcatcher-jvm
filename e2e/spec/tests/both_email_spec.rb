@@ -183,7 +183,7 @@ describe "HTML+Plain Email" do
           "created_at" => data["created_at"],
           "formats" => ["source", "html", "plain"],
           "type" => "multipart/alternative",
-          "attachments" => data["attachments"],
+          "attachments" => data["attachments"]
         }
       )
 

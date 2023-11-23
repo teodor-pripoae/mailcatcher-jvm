@@ -125,7 +125,7 @@ describe "Text Email" do
         sender: @sender,
         recipient: @recipient,
         subject: @subject,
-        body_plain: @body,
+        body_plain: @body
       )
     end
 
@@ -226,7 +226,7 @@ describe "Text Email" do
         sender: "#{@sender_name} <#{@sender}>",
         recipient: "#{@recipient_name} <#{@recipient}>",
         subject: @subject,
-        body_plain: @body,
+        body_plain: @body
       )
     end
 
@@ -327,7 +327,7 @@ describe "Text Email" do
         sender: "#{@sender_name} <#{@sender}>",
         recipient: ["#{@recipient_name} <#{@recipient}>"],
         subject: @subject,
-        body_plain: @body,
+        body_plain: @body
       )
     end
 
@@ -429,16 +429,16 @@ describe "Text Email" do
       @body = Faker::Lorem.paragraph
 
       @recipients = [
-          "#{@recipient1_name} <#{@recipient1}>",
-          "#{@recipient2_name} <#{@recipient2}>",
-          "#{@recipient3_name} <#{@recipient3}>",
+        "#{@recipient1_name} <#{@recipient1}>",
+        "#{@recipient2_name} <#{@recipient2}>",
+        "#{@recipient3_name} <#{@recipient3}>"
       ]
 
       @message = new_email(
         sender: "#{@sender_name} <#{@sender}>",
         recipient: @recipients,
         subject: @subject,
-        body_plain: @body,
+        body_plain: @body
       )
     end
 
@@ -592,7 +592,7 @@ describe "Text Email" do
           "created_at" => data["created_at"],
           "formats" => ["source", "plain"],
           "type" => "multipart/mixed",
-          "attachments" => data["attachments"],
+          "attachments" => data["attachments"]
         }
       )
 

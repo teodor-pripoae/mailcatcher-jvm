@@ -182,7 +182,7 @@ describe "HTML Email" do
           "created_at" => data["created_at"],
           "formats" => ["source", "html"],
           "type" => "multipart/mixed",
-          "attachments" => data["attachments"],
+          "attachments" => data["attachments"]
         }
       )
 
