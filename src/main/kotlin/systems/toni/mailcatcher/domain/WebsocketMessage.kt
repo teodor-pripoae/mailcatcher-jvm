@@ -1,7 +1,9 @@
 package systems.toni.mailcatcher.domain
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import io.quarkus.runtime.annotations.RegisterForReflection
 
+@RegisterForReflection
 data class NewMessage(
     val id : Int,
     val sender: String,
@@ -28,6 +30,7 @@ data class NewMessage(
     }
 }
 
+@RegisterForReflection
 data class WebsocketNewMessage(
     @JsonProperty("type")
     val type: String = "add",
@@ -43,6 +46,7 @@ data class WebsocketNewMessage(
     }
 }
 
+@RegisterForReflection
 data class WebsocketClearMessage(
     val type: String = "clear"
 )
