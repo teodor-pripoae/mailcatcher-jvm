@@ -19,24 +19,13 @@ describe "HTML+Plain Email" do
       @subject = Faker::Lorem.sentence
       @body = Faker::Lorem.paragraph
 
-      sender = @sender
-      recipient = @recipient
-      subject = @subject
-
-      @message = Mail.deliver do
-        to recipient
-        from sender
-        subject subject
-
-        text_part do
-          body "This is a plain text email\n  with multiple lines\nGoodbye"
-        end
-
-        html_part do
-          content_type "text/html; charset=UTF-8"
-          body "<html>\n<body>\n  <h1>This is HTML</h1>\n</body>\n</html>\n"
-        end
-      end.to_s
+      @message = new_email(
+        sender: @sender,
+        recipient: @recipient,
+        subject: @subject,
+        body_plain: "This is a plain text email\n  with multiple lines\nGoodbye",
+        body_html: "<html>\n<body>\n  <h1>This is HTML</h1>\n</body>\n</html>\n"
+      )
     end
 
     after :all do
@@ -135,8 +124,8 @@ describe "HTML+Plain Email" do
         sender: @sender,
         recipient: @recipient,
         subject: @subject,
-        bodyPlain: @body,
-        bodyHtml: "<html>\n<body>\n  <h1>This is HTML</h1>\n</body>\n</html>\n",
+        body_plain: @body,
+        body_html: "<html>\n<body>\n  <h1>This is HTML</h1>\n</body>\n</html>\n",
         attachments: [
           File.join(File.dirname(__FILE__), "..", "fixtures", "attachment.txt"),
           File.join(File.dirname(__FILE__), "..", "fixtures", "image1.jpg")

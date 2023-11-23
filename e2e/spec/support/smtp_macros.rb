@@ -5,22 +5,22 @@ module SmtpMacros
     end
   end
 
-  def new_email(sender: Faker::Internet.email, recipient: Faker::Internet.email, subject: Faker::Lorem.sentence, bodyPlain: Faker::Lorem.paragraph, bodyHtml: nil, attachments: [])
-    message = Mail.deliver do
+  def new_email(sender: Faker::Internet.email, recipient: Faker::Internet.email, subject: Faker::Lorem.sentence, body_plain: Faker::Lorem.paragraph, body_html: nil, attachments: [])
+    message = Mail.new do
       to recipient
       from sender
       subject subject
 
-      if bodyPlain && bodyPlain != ""
+      if body_plain && body_plain != ""
         text_part do
-          body bodyPlain
+          body body_plain
         end
       end
 
-      if bodyHtml && bodyHtml != ""
+      if body_html && body_html != ""
         html_part do
           content_type "text/html; charset=UTF-8"
-          body bodyHtml
+          body body_html
         end
       end
 

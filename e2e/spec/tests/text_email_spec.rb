@@ -125,7 +125,7 @@ describe "Text Email" do
         sender: @sender,
         recipient: @recipient,
         subject: @subject,
-        bodyPlain: @body,
+        body_plain: @body,
       )
     end
 
@@ -226,7 +226,7 @@ describe "Text Email" do
         sender: "#{@sender_name} <#{@sender}>",
         recipient: "#{@recipient_name} <#{@recipient}>",
         subject: @subject,
-        bodyPlain: @body,
+        body_plain: @body,
       )
     end
 
@@ -327,7 +327,7 @@ describe "Text Email" do
         sender: "#{@sender_name} <#{@sender}>",
         recipient: ["#{@recipient_name} <#{@recipient}>"],
         subject: @subject,
-        bodyPlain: @body,
+        body_plain: @body,
       )
     end
 
@@ -438,7 +438,7 @@ describe "Text Email" do
         sender: "#{@sender_name} <#{@sender}>",
         recipient: @recipients,
         subject: @subject,
-        bodyPlain: @body,
+        body_plain: @body,
       )
     end
 
@@ -537,8 +537,8 @@ describe "Text Email" do
         sender: @sender,
         recipient: @recipient,
         subject: @subject,
-        bodyPlain: @body,
-        bodyHtml: nil,
+        body_plain: @body,
+        body_html: nil,
         attachments: [
           File.join(File.dirname(__FILE__), "..", "fixtures", "attachment.txt"),
           File.join(File.dirname(__FILE__), "..", "fixtures", "image1.jpg")

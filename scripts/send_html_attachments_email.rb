@@ -4,7 +4,7 @@ FROM_ADDRESS = "john@example.com"
 FROM = "John Doe <#{FROM_ADDRESS}>"
 TO = "test@example.com"
 
-mail = Mail.deliver do
+mail = Mail.new do
   to TO
   from FROM
   subject "First multipart email sent with Mail"
