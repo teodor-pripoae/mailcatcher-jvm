@@ -6,6 +6,7 @@ require "oga"
 require "pry"
 require "dotenv"
 require "mail"
+require "rspec/eventually"
 
 Dotenv.load
 
@@ -17,6 +18,8 @@ MAILCATCHER_SMTP_PORT = MAILCATCHER_SMTP_URL.split(":").last.to_i
 
 MAILCATCHER_HTTP_HOST = MAILCATCHER_HTTP_URL.split(":").first
 MAILCATCHER_HTTP_PORT = MAILCATCHER_HTTP_URL.split(":").last.to_i
+
+WEBSOCKET_TIMEOUT = ENV.fetch("WEBSOCKET_TIMEOUT", 5).to_i
 
 Dir.glob(File.join(File.dirname(__FILE__), "support", "*.rb")).each do |file|
   require file

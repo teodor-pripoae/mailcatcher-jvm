@@ -50,9 +50,7 @@ describe "Websocket" do
         expect(response.status).to eq "250"
       end
 
-      sleep 1
-
-      expect(@client.messages.size).to eq 1
+      expect { @client.messages.size }.to eventually(eq 1).within WEBSOCKET_TIMEOUT
 
       message = @client.messages.first
 
@@ -76,9 +74,7 @@ describe "Websocket" do
       expect(@client.messages.size).to eq 1
 
       clear_all
-      sleep 1
-
-      expect(@client.messages.size).to eq 2
+      expect { @client.messages.size }.to eventually(eq 2).within WEBSOCKET_TIMEOUT
 
       message = @client.messages.last
 
@@ -122,9 +118,7 @@ describe "Websocket" do
         expect(response.status).to eq "250"
       end
 
-      sleep 1
-
-      expect(@client.messages.size).to eq 1
+      expect { @client.messages.size }.to eventually(eq 1).within WEBSOCKET_TIMEOUT
 
       message = @client.messages.first
 
@@ -148,9 +142,7 @@ describe "Websocket" do
       expect(@client.messages.size).to eq 1
 
       clear_all
-      sleep 1
-
-      expect(@client.messages.size).to eq 2
+      expect { @client.messages.size }.to eventually(eq 2).within WEBSOCKET_TIMEOUT
 
       message = @client.messages.last
 
@@ -194,9 +186,7 @@ describe "Websocket" do
         expect(response.status).to eq "250"
       end
 
-      sleep 1
-
-      expect(@client.messages.size).to eq 1
+      expect { @client.messages.size }.to eventually(eq 1).within WEBSOCKET_TIMEOUT
 
       message = @client.messages.first
 
@@ -220,9 +210,7 @@ describe "Websocket" do
       expect(@client.messages.size).to eq 1
 
       clear_all
-      sleep 1
-
-      expect(@client.messages.size).to eq 2
+      expect { @client.messages.size }.to eventually(eq 2).within WEBSOCKET_TIMEOUT
 
       message = @client.messages.last
 
@@ -266,9 +254,7 @@ describe "Websocket" do
         expect(response.status).to eq "250"
       end
 
-      sleep 1
-
-      expect(@client.messages.size).to eq 1
+      expect { @client.messages.size }.to eventually(eq 1).within WEBSOCKET_TIMEOUT
 
       message = @client.messages.first
 
@@ -292,9 +278,7 @@ describe "Websocket" do
       expect(@client.messages.size).to eq 1
 
       clear_all
-      sleep 1
-
-      expect(@client.messages.size).to eq 2
+      expect { @client.messages.size }.to eventually(eq 2).within WEBSOCKET_TIMEOUT
 
       message = @client.messages.last
 
@@ -343,9 +327,7 @@ describe "Websocket" do
         expect(response.status).to eq "250"
       end
 
-      sleep 1
-
-      expect(@client.messages.size).to eq 1
+      expect { @client.messages.size }.to eventually(eq 1).within WEBSOCKET_TIMEOUT
 
       message = @client.messages.first
 
@@ -369,9 +351,7 @@ describe "Websocket" do
       expect(@client.messages.size).to eq 1
 
       clear_all
-      sleep 1
-
-      expect(@client.messages.size).to eq 2
+      expect { @client.messages.size }.to eventually(eq 2).within WEBSOCKET_TIMEOUT
 
       message = @client.messages.last
 

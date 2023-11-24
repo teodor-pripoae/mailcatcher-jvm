@@ -63,6 +63,7 @@ GEM
       rspec-mocks (~> 3.12.0)
     rspec-core (3.12.2)
       rspec-support (~> 3.12.0)
+    rspec-eventually (0.2.2)
     rspec-expectations (3.12.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
@@ -93,7 +94,7 @@ PLATFORMS
 DEPENDENCIES
   celluloid-websocket-client (~> 0.0.2)
   dotenv (~> 2.8)
-  faker (~> 3.2.1)
+  faker (>= 2)
   json (~> 2.5)
   mail (~> 2.8)
   net-smtp (~> 0.4.0)
@@ -101,6 +102,7 @@ DEPENDENCIES
   pry (~> 0.14)
   rake (~> 13.0)
   rspec (~> 3.12)
+  rspec-eventually (~> 0.2)
 
 BUNDLED WITH
    2.3.26
